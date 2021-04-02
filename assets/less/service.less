@@ -1,0 +1,96 @@
+.service {
+  &-first {
+    background: url("../image//service.png") no-repeat center;
+    background-size: cover;
+    padding: 50px 0;
+    color: @text-white;
+  }
+  &-title {
+    font-size: 20px;
+    margin-bottom: 30px;
+    .font();
+    &-samll {
+      font-size: 18px;
+      margin: 10px 0;
+      .font();
+    }
+  }
+  &-second {
+    background-color: @text-white;
+    padding: 50px 0;
+    margin-bottom: 50px;
+    &-left {
+      padding-bottom: 30px;
+      &:first-child {
+        padding-bottom: 70px;
+      }
+    }
+    &-right {
+      padding-top: 54px;
+      padding-left: 20%;
+      border-left: 1px solid #dfdfdf;
+      &:last-child {
+        padding-top: 55px;
+      }
+    }
+  }
+  &-btn {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+    a {
+      padding: 10px 20px;
+      color: @text-white;
+      &:last-child {
+        border: 1px solid #fff;
+        margin-left: 20px;
+        padding: 8px 20px;
+      }
+      &:first-child {
+        background-color: @primary-color;
+        &:hover {
+          color: @text-white;
+          background-color: rgba(@primary-color, 0.8);
+        }
+      }
+    }
+  }
+  &-fourth {
+    &-box {
+      .product-text {
+        text-align: left;
+        text-indent: 2em;
+        margin-bottom: 10px;
+      }
+    }
+  }
+  &-fifth {
+    background: url("../image/service-10.png") no-repeat center;
+    padding: 50px 0;
+    .product-text {
+      color: @text-white;
+      text-align: center;
+    }
+    &-btn {
+      text-align: center;
+      a {
+        color: #fff;
+      }
+    }
+    &-github {
+      border: 1px solid #fff;
+      padding: 10px 20px;
+      color: @text-white;
+      display: inline-flex;
+      align-items: center;
+      img {
+        margin-right: 10px;
+      }
+    }
+  }
+}
+.font {
+  font-weight: bold;
+  text-align: center;
+  color: @text-color;
+}

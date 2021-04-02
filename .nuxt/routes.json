@@ -1,0 +1,44 @@
+[
+  {
+    "name": "about",
+    "path": "/about",
+    "component": "E:\\\\gachain\\\\pages\\\\about.vue",
+    "chunkName": "pages/about"
+  },
+  {
+    "name": "news",
+    "path": "/news",
+    "component": "E:\\\\gachain\\\\pages\\\\news\\\\index.vue",
+    "chunkName": "pages/news/index"
+  },
+  {
+    "name": "product",
+    "path": "/product",
+    "component": "E:\\\\gachain\\\\pages\\\\product.vue",
+    "chunkName": "pages/product"
+  },
+  {
+    "name": "service",
+    "path": "/service",
+    "component": "E:\\\\gachain\\\\pages\\\\service.vue",
+    "chunkName": "pages/service"
+  },
+  {
+    "name": "solution",
+    "path": "/solution",
+    "component": "E:\\\\gachain\\\\pages\\\\solution.vue",
+    "chunkName": "pages/solution"
+  },
+  {
+    "name": "news-id",
+    "path": "/news/:id",
+    "component": "E:\\\\gachain\\\\pages\\\\news\\\\_id.vue",
+    "chunkName": "pages/news/_id"
+  },
+  {
+    "name": "index",
+    "path": "/",
+    "component": "E:\\\\gachain\\\\pages\\\\index.vue",
+    "chunkName": "pages/index"
+  }
+]

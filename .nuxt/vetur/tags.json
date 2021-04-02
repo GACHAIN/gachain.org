@@ -1,0 +1,50 @@
+{
+  "HomeSecond": {
+    "description": "Auto imported from E:/gachain/components/homeSecond.vue"
+  },
+  "LazyHomeSecond": {
+    "description": "Auto imported from E:/gachain/components/homeSecond.vue"
+  },
+  "NewList": {
+    "description": "Auto imported from E:/gachain/components/newList.vue"
+  },
+  "LazyNewList": {
+    "description": "Auto imported from E:/gachain/components/newList.vue"
+  },
+  "PublicCarousel": {
+    "description": "Auto imported from E:/gachain/components/PublicCarousel.vue"
+  },
+  "LazyPublicCarousel": {
+    "description": "Auto imported from E:/gachain/components/PublicCarousel.vue"
+  },
+  "PublicFooter": {
+    "description": "Auto imported from E:/gachain/components/PublicFooter.vue"
+  },
+  "LazyPublicFooter": {
+    "description": "Auto imported from E:/gachain/components/PublicFooter.vue"
+  },
+  "PublicHeader": {
+    "description": "Auto imported from E:/gachain/components/PublicHeader.vue"
+  },
+  "LazyPublicHeader": {
+    "description": "Auto imported from E:/gachain/components/PublicHeader.vue"
+  },
+  "PublicTime": {
+    "description": "Auto imported from E:/gachain/components/PublicTime.vue"
+  },
+  "LazyPublicTime": {
+    "description": "Auto imported from E:/gachain/components/PublicTime.vue"
+  },
+  "SwiperCarousel": {
+    "description": "Auto imported from E:/gachain/components/swiperCarousel.vue"
+  },
+  "LazySwiperCarousel": {
+    "description": "Auto imported from E:/gachain/components/swiperCarousel.vue"
+  },
+  "SwiperFirend": {
+    "description": "Auto imported from E:/gachain/components/swiperFirend.vue"
+  },
+  "LazySwiperFirend": {
+    "description": "Auto imported from E:/gachain/components/swiperFirend.vue"
+  }
+}
