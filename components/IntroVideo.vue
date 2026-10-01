@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import playIcon from '~/assets/image/612.png'
 
-// 首页政务链介绍视频（原生 <video>）：封面层覆盖视频，点击封面或调用 play() 后隐藏封面并播放
+// 介绍视频（原生 <video>）：播放图标层覆盖视频，点击图标或调用 play() 后隐藏图标并播放
+defineProps<{
+  src: string
+  poster?: string
+}>()
+
 const video = useTemplateRef<HTMLVideoElement>('video')
 const started = ref(false)
 
@@ -18,8 +23,8 @@ defineExpose({ play })
     <video
       ref="video"
       class="video-content"
-      src="/video/gacvideo.mp4"
-      poster="/video/poster.png"
+      :src="src"
+      :poster="poster"
       controls
       controlslist="nodownload noremoteplayback"
       muted

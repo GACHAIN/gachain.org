@@ -122,6 +122,13 @@
    - swiper 11 的 loop 不再自动复制幻灯片，`ImageCarousel` 在图片不足 9 张时重复渲染，分页圆点改为组件自绘，仍按原图数量显示。
    - 移除 `video.js` 依赖。
 5. **阶段 5 — 页面**：六个页面逐页迁移（`useAsyncData`、`useHead`、`$t`、ant 组件核对）。
+   - 已完成：`index`、`product`、`solution`、`service`、`about`、`news/[id]`；各页 `head()` 改为 `useSeoMeta`，文案与旧站一致。
+   - `news/[id]`：`definePageMeta.validate` 校验数字 id；正文与上一条/下一条（`/newspre`、`/newsnext` 取首条）在同一 `useAsyncData` 内获取，新闻不存在（`code !== 0` 或 `data` 为空）时抛 404。
+   - `about` 新闻分页改为 `useAsyncData` + `watch` 页码，`a-pagination` 不再包 `ClientOnly`，首屏即服务端渲染。
+   - 旧 `pages/news/index.vue` 为空页面，不再保留，`/news` 返回 404。
+   - 首页桌面端合作伙伴分页网格抽为 `PartnerGrid`（按容器宽度每 200px 一个 logo，翻页按钮禁用态按总页数计算）；`IntroVideo` 增加 `src`/`poster` 属性，服务页复用以播放 `show.MP4`。
+   - 移动端与桌面端仅顺序不同的区块改用 `a-col` 的 `order`，不再重复渲染两份。
+   - 页面内 `javascript:;` 空链接改为 `span`/`button`，对应样式选择器同步调整。
 6. **阶段 6 — 清理与构建**：删除废弃 plugins/store/middleware/content，重写 `package.json`、`Dockerfile`、`.dockerignore`。
 7. **阶段 7 — 验证**：全站回归 + `npm audit` + 容器构建 + compose 联调。
 
