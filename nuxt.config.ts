@@ -8,7 +8,7 @@ export default defineNuxtConfig({
 
   devtools: { enabled: true },
 
-  modules: ['@nuxtjs/i18n', '@nuxt/image', '@nuxt/eslint', '@ant-design-vue/nuxt', '@vueuse/nuxt'],
+  modules: ['@nuxtjs/i18n', '@nuxt/eslint', '@ant-design-vue/nuxt', '@vueuse/nuxt'],
 
   app: {
     // 沿用旧站的页面淡入淡出过渡（样式见 assets/less/global.less 的 .page-*）
@@ -74,10 +74,5 @@ export default defineNuxtConfig({
         less: { javascriptEnabled: true },
       },
     },
-  },
-
-  // 后端地址，运行时可由 NUXT_API_TARGET 覆盖；server/routes 代理读取
-  runtimeConfig: {
-    apiTarget: process.env.API_TARGET || 'http://localhost:9033',
   },
 })

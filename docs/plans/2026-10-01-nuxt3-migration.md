@@ -130,6 +130,10 @@
    - 移动端与桌面端仅顺序不同的区块改用 `a-col` 的 `order`，不再重复渲染两份。
    - 页面内 `javascript:;` 空链接改为 `span`/`button`，对应样式选择器同步调整。
 6. **阶段 6 — 清理与构建**：删除废弃 plugins/store/middleware/content，重写 `package.json`、`Dockerfile`、`.dockerignore`。
+   - 修复：后端地址原放在 `runtimeConfig`，其默认值在构建时求值，且运行时只认 `NUXT_API_TARGET`，compose 注入的 `API_TARGET` 不生效（容器内会代理到自身 localhost）。改为 `server/utils/backend.ts` 运行时读取 `process.env.API_TARGET`，compose 契约不变。
+   - 移除未使用的 `@nuxt/image`（同时去掉随产物打包的平台相关 sharp 二进制，`.output` 由 27.8 MB 降至 7.38 MB）。
+   - `shenma-site-verification.txt` 移入 `public/`，原先在仓库根目录无法被访问。
+   - `Dockerfile` 运行阶段以 `node` 用户运行并增加 `HEALTHCHECK`；`README.md` 重写为 Nuxt 3 说明。
 7. **阶段 7 — 验证**：全站回归 + `npm audit` + 容器构建 + compose 联调。
 
 ## 8. 验收标准
