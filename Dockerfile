@@ -1,43 +1,19 @@
-# 构建阶段：Nuxt 2 + webpack 4 需在 Node 16 及以下构建
-FROM node:16-bookworm AS builder
-
-# image-webpack-loader（mozjpeg / gifsicle / optipng / pngquant）无预编译包时需要本地编译
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-        autoconf automake libtool nasm pkg-config build-essential libpng-dev \
-    && rm -rf /var/lib/apt/lists/*
-
-WORKDIR /src
-
-ENV HUSKY_SKIP_INSTALL=1
-
+# GAChain 官网（Nuxt 3 / Nitro）生产镜像。多阶段构建，产物为 .output
+# 构建阶段：Node 22（替代旧 Nuxt 2 的 node:16）
+FROM node:22-alpine AS build
+WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
-
 COPY . .
-RUN npm run build && npm prune --production
+RUN npm run build
 
-# 运行阶段：生产依赖均为纯 JS，可运行在新版 Node 与多架构上
-FROM node:24-alpine
-
+# 运行阶段：仅携带 Nitro 自包含产物 .output
+FROM node:22-alpine AS runtime
 WORKDIR /app
-
-COPY --from=builder --chown=node:node /src/package.json /src/nuxt.config.js ./
-COPY --from=builder --chown=node:node /src/.nuxt ./.nuxt
-COPY --from=builder --chown=node:node /src/node_modules ./node_modules
-COPY --from=builder --chown=node:node /src/static ./static
-COPY --from=builder --chown=node:node /src/content ./content
-
-ENV NODE_ENV=production \
-    HOST=0.0.0.0 \
-    PORT=8081 \
-    API_TARGET=http://backend:9033/
-
-USER node
-
+ENV NODE_ENV=production
+# 监听端口与宿主 compose 映射一致（127.0.0.1:8081）
+ENV NITRO_HOST=0.0.0.0
+ENV NITRO_PORT=8081
+COPY --from=build /app/.output ./.output
 EXPOSE 8081
-
-HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=3 \
-    CMD wget -q -O /dev/null http://127.0.0.1:8081/ || exit 1
-
-CMD ["node", "node_modules/nuxt/bin/nuxt.js", "start"]
+CMD ["node", ".output/server/index.mjs"]

@@ -1,10 +1,18 @@
 .git
-.nuxt
+.github
 node_modules
+.nuxt
+.output
+.data
+.nitro
+dist
 .DS_Store
 **/.DS_Store
 npm-debug.log*
-Dockerfile
-Dockerfile_yarn
-docker build.txt
+.env
+# 迁移参考，不进镜像
+_legacy_vue2
+docs
 test
+README.md
+LICENSE

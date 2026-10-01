@@ -1,0 +1,4 @@
+{
+  // Nuxt 生成的 tsconfig 由 `nuxt prepare` 写入 .nuxt/，此处继承
+  "extends": "./.nuxt/tsconfig.json"
+}
