@@ -33,8 +33,8 @@
 - 数据获取：内置 **`$fetch` / `useAsyncData` / `useFetch`**（底层 ofetch），不再用 axios。
 - i18n：**`@nuxtjs/i18n` v9**（内含 vue-i18n v10），接管 locale 状态与路由。
 - UI 组件：**`ant-design-vue` v4**（Vue 3），按需加载用 `unplugin-vue-components` + `AntDesignVueResolver`，替代 `babel-plugin-import`。
-- 轮播：**`swiper` v11**（`swiper/vue` 的 `Swiper` / `SwiperSlide`），替代 `vue-awesome-swiper` v3。
-- 视频：**`video.js` v8 + 自有 client-only 组件 `components/VideoPlayer.client.vue`**，替代 `vue-video-player` v5（`@videojs-player/vue` 仅支持 video.js 7.x 且已停止维护，不采用）。**【已定】**
+- 轮播：**`swiper` v11 核心 API + 自有 Vue 组件**，替代 `vue-awesome-swiper` v3（swiper 11 发布包已不含 `swiper/vue`）。
+- 视频：**原生 `<video>` 组件 `components/IntroVideo.vue`，不引入 video.js**。阶段 4 核实：旧首页的 `v-video-player` 用法已整段注释，现网实际播放的是原生 `<video>` + 封面层，`vue-video-player`/`video.js` 为死依赖；原“video.js 8 + 自有组件”方案随之撤销。
 - 滚动容器：移除 `vuescroll`（无 Vue 3 稳定版），改用 **`overlayscrollbars-vue`**（保留自定义滚动条外观）。**【已定】**
 - 滚动动画：**保留 `wowjs`，仅在 client 端初始化**（framework-agnostic，视觉零回归）。**【已定】**
 - PWA：**删除**（展示站无需可安装/离线能力，移除 `@nuxtjs/pwa`，不引入 `@vite-pwa/nuxt`）。**【已定】**
@@ -56,9 +56,9 @@
 | `ant-design-vue@1.7` | `ant-design-vue@^4` | 大改：组件 API 变化 |
 | `babel-plugin-import` | `unplugin-vue-components` + `AntDesignVueResolver` | 按需加载 |
 | `vue-i18n@8` + `plugins/i18n.js` + `middleware/i18n.js` | `@nuxtjs/i18n@^9`（vue-i18n 10） | 由模块接管 |
-| `vue-video-player@5` + `video.js` + `plugins/video.js` | `video.js@^8` + 自有组件 `VideoPlayer.client.vue` | 替换，client-only |
+| `vue-video-player@5` + `video.js` + `plugins/video.js` | 无（原生 `<video>`，`IntroVideo.vue`） | 删除 |
 | `vuescroll@4` + `plugins/vuescroll.js` | `overlayscrollbars-vue` 或原生滚动 | 替换 |
-| `vue-awesome-swiper@3` + `plugins/swiper.js` | `swiper@^11`（`swiper/vue`） | 替换 |
+| `vue-awesome-swiper@3` + `plugins/swiper.js` | `swiper@^11`（核心 API，自有组件） | 替换 |
 | `wowjs` | `wowjs`（client-only）或 `@vueuse/motion` | 保留/可选替换 |
 | `vuex`（`store/index.js`） | `@nuxtjs/i18n` 管理 locale | 删除 store |
 | `plugins/mixins.js`（全局 mixin） | `composables/useIsMobile.ts`（`@vueuse/core`） | 重写为 composable |
@@ -76,8 +76,8 @@
 2. **i18n**：删除 `plugins/i18n.js`、`middleware/i18n.js`、`store` 的 locale 逻辑，改用 `@nuxtjs/i18n` 配置 `locales`（zh/en/tw）+ `lang/*.json`。模板里 `$t(...)` 保持可用（模块注入）。
 3. **状态**：`store/index.js` 仅存 locale → 删除整个 `store/`，locale 由 i18n 的 `useI18n().locale` 管理。`PublicHeader.vue`、`layouts/default.vue` 的 `$store` 调用改 `useI18n`。
 4. **组件库**：`plugins/antd-ui.js` 全量引入改为 `unplugin-vue-components` 自动按需；模板中 `<a-xxx>` 组件逐个核对 v1→v4 的 prop/事件变更（重点：`a-carousel`、`a-menu`、`a-drawer`、`message`、图标 `@ant-design/icons-vue`）。
-5. **轮播**：`components/swiperCarousel.vue`、`swiperFirend.vue`、`PublicCarousel.vue` 及 `pages/index.vue`、`product.vue`、`about.vue` 的 swiper 用法改为 `swiper/vue` 的 `<Swiper>`/`<SwiperSlide>` + modules（`Autoplay`/`Pagination`/`Navigation`），删除 `plugins/swiper.js`。
-6. **视频**：`pages/index.vue` + `plugins/video.js` 改用自有组件 `VideoPlayer.client.vue`（直接调用 video.js 8 API），CSS 引入 `video.js/dist/video-js.css`。
+5. **轮播**：`components/swiperCarousel.vue`、`swiperFirend.vue`、`PublicCarousel.vue` 及 `pages/index.vue`、`product.vue`、`about.vue` 的 swiper 用法改为自有组件 `ImageCarousel.vue`（层叠轮播，`wide` 属性区分 60%/30% 版式，移动端自动 80%）与 `PartnerSwiper.vue`（移动端合作伙伴），内部直接 `new Swiper()`，删除 `plugins/swiper.js`。
+6. **视频**：`pages/index.vue` 的原生 `<video>` + 封面层抽成 `IntroVideo.vue`（暴露 `play()` 供“播放介绍视频”按钮调用，16:9 用 CSS `aspect-ratio`），删除 `plugins/video.js`、`lang/video-zh-cn.json` 与 `home.less` 中的 `.vjs-*` 样式。
 7. **滚动**：`layouts/default.vue` 的 vuescroll 容器改为 `overlayscrollbars-vue` 或原生；`middleware/router.js`（路由后置顶）改用 Nuxt3 `app.pageTransition` + 内置 `scrollBehavior`（`app/router.options.ts`）。
 8. **响应式 `isMobile`**：`plugins/mixins.js` 的全局 mixin → `composables/useIsMobile.ts`（`const { width } = useWindowSize(); const isMobile = computed(() => width.value <= 992)`）。各组件 `this.isMobile` → `const { isMobile } = useIsMobile()`。
 9. **head / SEO**：各页面 `head()` → `useHead(...)` / `useSeoMeta(...)`；全局 head（`nuxt.config.ts` 的 `app.head`）保留 meta、favicon、`font.css`、`animate.min.css`、百度统计脚本、神马站长验证 meta。
@@ -95,7 +95,7 @@
 - `composables/`：新增 `useIsMobile.ts`、`useApi.ts`。
 - `middleware/`：删除 `i18n.js`、`router.js`（能力由 i18n 模块 / router.options 承接）。
 - `store/`：整目录删除。
-- `lang/`：`en-us.json`、`zh-cn.json`、`zh-tw.json` 交给 `@nuxtjs/i18n`；`video-zh-cn.json` 按引用处理。
+- `lang/`：`en-us.json`、`zh-cn.json`、`zh-tw.json` 移至 `i18n/locales/` 交给 `@nuxtjs/i18n`；`video-zh-cn.json` 无引用，删除。
 - `content/`：删除（含 `hello.md`）。
 - `assets/`、`static/`：`static/` → `public/`；`assets/less/index.less` 保留。
 
@@ -118,6 +118,9 @@
    - wowjs 为顶层 `this.WOW` 的旧式脚本，打包为 ESM 后不可用，改以 `?url` + 经典 `<script>` 在客户端加载，`live: true` 使路由切换后的新元素同样生效。
    - 旧 `PublicHeader` 中 `display:none` 的语言下拉与 localStorage 记忆为不可见死代码，删除；语言完全由 URL 前缀决定。
 4. **阶段 4 — 轮播与视频组件**：swiper 三件套 + video 组件。
+   - 已完成：`ImageCarousel`（合并旧 `PublicCarousel` 与 `swiperCarousel`）、`PartnerSwiper`（旧 `swiperFirend`，两屏用 `rewind`）、`IntroVideo`；合作伙伴 logo 列表见 `utils/partners.ts`；swiper 样式在 `nuxt.config.ts` 的 `css` 中全局引入。
+   - swiper 11 的 loop 不再自动复制幻灯片，`ImageCarousel` 在图片不足 9 张时重复渲染，分页圆点改为组件自绘，仍按原图数量显示。
+   - 移除 `video.js` 依赖。
 5. **阶段 5 — 页面**：六个页面逐页迁移（`useAsyncData`、`useHead`、`$t`、ant 组件核对）。
 6. **阶段 6 — 清理与构建**：删除废弃 plugins/store/middleware/content，重写 `package.json`、`Dockerfile`、`.dockerignore`。
 7. **阶段 7 — 验证**：全站回归 + `npm audit` + 容器构建 + compose 联调。

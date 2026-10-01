@@ -42,7 +42,14 @@ export default defineNuxtConfig({
     },
   },
 
-  css: ['~/assets/less/index.less', 'video.js/dist/video-js.css', 'overlayscrollbars/overlayscrollbars.css'],
+  css: [
+    '~/assets/less/index.less',
+    'overlayscrollbars/overlayscrollbars.css',
+    // 轮播组件 ImageCarousel、PartnerSwiper 共用
+    'swiper/css',
+    'swiper/css/navigation',
+    'swiper/css/pagination',
+  ],
 
   // 多语言：沿用旧站 URL 规则——默认中文无前缀，英文 /en/...、繁体 /tw/...
   i18n: {
