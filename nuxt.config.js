@@ -7,6 +7,7 @@
  */
 // eslint-disable-next-line nuxt/no-cjs-in-config
 const path = require("path");
+const apiTarget = process.env.API_TARGET || "http://localhost:9033/";
 let pattern = false;
 const plugins = [
   [
@@ -122,7 +123,7 @@ export default {
       {
         hid: "shenma-site-verification",
         name: "shenma-site-verification",
-        content: "402ffef735e5fdc4d7f8d87c8571b7c9_1617362421"
+        content: "402ffef735e5fdc4d7f8d87c8571b7c9_1617367481"
       }
       /* {
         hid: "twitter:description",
@@ -161,8 +162,7 @@ export default {
   css: [
     "@/assets/less/index.less",
     "video.js/dist/video-js.css",
-    "vue-video-player/src/custom-theme.css",
-    "vue-video-player/node_modules/video.js/dist/video-js.css"
+    "vue-video-player/src/custom-theme.css"
   ],
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
@@ -228,13 +228,18 @@ export default {
   },
   proxy: {
     "/api": {
-      // 这个网站是开源的可以请求到数据的
-      target: "http://129.226.141.90:9033/", // 开发环境
+      // 后端地址：容器内由 API_TARGET 注入，本地开发默认连本机 9033
+      target: apiTarget,
       changeOrigin: true, // 是否跨域
       pathRewrite: {
         "^/api/*": "" // 把/api替换成///这里理解成用‘/api’代替target里面的地址，组件中我们调接口时直接用/api代替
         // 比如我要调用'http://0.0:300/user/add'，直接写‘/api/user/add’即可 代理后地址栏显示/
       }
+    },
+    // 后台上传的图片，路径原样转发到后端
+    "/uploads": {
+      target: apiTarget,
+      changeOrigin: true
     }
   },
   // Content module configuration (https://go.nuxtjs.dev/config-content)

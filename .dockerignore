@@ -1,0 +1,10 @@
+.git
+.nuxt
+node_modules
+.DS_Store
+**/.DS_Store
+npm-debug.log*
+Dockerfile
+Dockerfile_yarn
+docker build.txt
+test
