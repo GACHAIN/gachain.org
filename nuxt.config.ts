@@ -11,9 +11,11 @@ export default defineNuxtConfig({
   modules: ['@nuxtjs/i18n', '@nuxt/image', '@nuxt/eslint', '@ant-design-vue/nuxt', '@vueuse/nuxt'],
 
   app: {
+    // 沿用旧站的页面淡入淡出过渡（样式见 assets/less/global.less 的 .page-*）
+    pageTransition: { name: 'page', mode: 'out-in' },
+    // <html lang> 随语言切换，见 layouts/default.vue 的 useLocaleHead
     head: {
       title: siteTitle,
-      htmlAttrs: { lang: 'zh-CN' },
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0' },
@@ -44,6 +46,7 @@ export default defineNuxtConfig({
 
   // 多语言：沿用旧站 URL 规则——默认中文无前缀，英文 /en/...、繁体 /tw/...
   i18n: {
+    baseUrl: 'https://gachain.org',
     strategy: 'prefix_except_default',
     defaultLocale: 'zh',
     detectBrowserLanguage: false,

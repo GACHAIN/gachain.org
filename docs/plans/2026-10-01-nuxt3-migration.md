@@ -113,6 +113,10 @@
 1. **阶段 1 — 脚手架与配置**：新建 Nuxt 3 骨架、`nuxt.config.ts`、模块接入（i18n/image/eslint）、`routeRules` 代理、全局 `app.head`、less 主题色。产出可启动的空壳。
 2. **阶段 2 — 数据层与全局**：`plugins/api.ts`、`composables/`、`layouts/default|error`、第三方脚本插件。
 3. **阶段 3 — 基础组件**：`Public*`、`homeSecond`、`newList`（含 `$fetch` 改造）。
+   - 已完成：`layouts/default.vue`（OverlayScrollbars 滚动视口、头部吸顶动画、`a-back-top`、ConfigProvider 语言与主题色、`useLocaleHead` 设置 `<html lang>`）；根目录 `error.vue`（套用默认布局）；`app/router.options.ts`（`linkActiveClass`、在滚动视口内回顶与 `?scroll=` 定位）；开启 `pageTransition` 淡入淡出。
+   - 组件：`PublicHeader`、`PublicFooter`、`PublicTime`，`homeSecond` → `HomeSecond`，`newList` → `NewsList`；接口类型见 `types/api.ts`。
+   - wowjs 为顶层 `this.WOW` 的旧式脚本，打包为 ESM 后不可用，改以 `?url` + 经典 `<script>` 在客户端加载，`live: true` 使路由切换后的新元素同样生效。
+   - 旧 `PublicHeader` 中 `display:none` 的语言下拉与 localStorage 记忆为不可见死代码，删除；语言完全由 URL 前缀决定。
 4. **阶段 4 — 轮播与视频组件**：swiper 三件套 + video 组件。
 5. **阶段 5 — 页面**：六个页面逐页迁移（`useAsyncData`、`useHead`、`$t`、ant 组件核对）。
 6. **阶段 6 — 清理与构建**：删除废弃 plugins/store/middleware/content，重写 `package.json`、`Dockerfile`、`.dockerignore`。
