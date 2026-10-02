@@ -10,8 +10,7 @@ dist
 **/.DS_Store
 npm-debug.log*
 .env
-# 迁移参考，不进镜像
-_legacy_vue2
+# 文档与说明，不进镜像
 docs
 test
 README.md
