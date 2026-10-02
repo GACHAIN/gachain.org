@@ -136,15 +136,21 @@
    - `Dockerfile` 运行阶段以 `node` 用户运行并增加 `HEALTHCHECK`；`README.md` 重写为 Nuxt 3 说明。
    - 删除（经确认）：`_legacy_vue2/` 旧源码、无对应依赖的 `commitlint`/`stylelint`/`prettier` 配置、Nuxt 2 模板 README、未引用的图片资源；代码与锁文件中已无 axios/vuex/vuescroll/vue-awesome-swiper/vue-video-player/video.js/babel-plugin-import 残留。
 7. **阶段 7 — 验证**：全站回归 + `npm audit` + 容器构建 + compose 联调。
+   - `swiper` 升级至 14.3.0，修复 critical 公告 GHSA-hmx5-qpq5-p643；首页宽轮播（导航、循环、分页点）、移动端合作伙伴轮播、案例轮播回归通过。
+   - `nuxt` 移入 devDependencies（运行时只依赖自包含的 `.output`），`npm audit --omit=dev` 为 0，`.output/server/package.json` 审计为 0。
+   - `@nuxtjs/i18n` 升级至 10.6.0（vue-i18n 11），移除 v10 已不支持的 `bundle.optimizeTranslationDirective`；扁平 key 解析、`v-html` 富文本文案、三语路由与 `<html lang>`、ant-design-vue 语言包切换回归通过，控制台无报错。
+   - 全量 `npm audit` 余 7 个 high，均来自 `node-forge`（GHSA-86w9-cpqp-85rv，上游无修复版本），路径为 nuxt → @nuxt/cli / nitropack → listhen（仅开发服务器 HTTPS 证书），不进入 `.output` 与镜像。
+   - `en-us.json` 沿用旧站，只含导航 5 个 key，其余文案回退中文，与现网一致；补全英文文案属内容工作，不在本次迁移范围。
+   - 本机 `docker build` 成功（arm64，352 MB，`node` 用户，含 HEALTHCHECK）；容器运行与 compose 联调在服务器（amd64）上进行。
 
 ## 8. 验收标准
 
-- [ ] `node:22` 容器内 `nuxt build` 成功，产出 `.output/`。
-- [ ] `docker compose up -d --build website` 后容器 healthy，`http://localhost:8081` 200。
-- [ ] 六页 + 新闻详情逐页视觉/功能与现网一致：轮播、视频、滚动动画、响应式（移动端）、中英繁三语切换、新闻列表与详情（`/newsfind`、`/newspre`、`/newsnext`、`/events`）、图片（`/uploads`）。
-- [ ] `npm audit --omit=dev` 的 critical / high = **0**。
-- [ ] 代码中无 `@nuxtjs/axios`、`vuex`、`vuescroll`、`vue-awesome-swiper`、`vue-video-player`、`vue-i18n@8`、`babel-plugin-import` 等残留。
-- [ ] 后端 API、`docker-compose.yml`、nginx 配置未改动。
+- [x] `node:22` 容器内 `nuxt build` 成功，产出 `.output/`。
+- [ ] （服务器执行）`docker compose up -d --build website` 后容器 healthy，`http://localhost:8081` 200。
+- [x] 六页 + 新闻详情逐页视觉/功能与现网一致：轮播、视频、滚动动画、响应式（移动端）、中英繁三语切换、新闻列表与详情（`/newsfind`、`/newspre`、`/newsnext`、`/events`）、图片（`/uploads`）。
+- [x] `npm audit --omit=dev` 的 critical / high = **0**。
+- [x] 代码中无 `@nuxtjs/axios`、`vuex`、`vuescroll`、`vue-awesome-swiper`、`vue-video-player`、`vue-i18n@8`、`babel-plugin-import` 等残留。
+- [x] 后端 API、`docker-compose.yml`、nginx 配置未改动。
 
 ## 风险与回滚
 

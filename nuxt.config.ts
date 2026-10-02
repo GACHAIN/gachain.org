@@ -65,7 +65,6 @@ export default defineNuxtConfig({
     ],
     // 运行时配置见 i18n/i18n.config.ts；文案中含 <br/> 等 HTML（模板以 v-html 渲染）
     compilation: { strictMessage: false },
-    bundle: { optimizeTranslationDirective: false },
   },
 
   vite: {
