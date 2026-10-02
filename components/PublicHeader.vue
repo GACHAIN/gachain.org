@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { CloseOutlined } from '@ant-design/icons-vue'
+import { CloseOutlined, DownOutlined, GlobalOutlined } from '@ant-design/icons-vue'
 import logoText from '~/assets/image/logo-text.png'
 import navIcon from '~/assets/image/nav.png'
 
@@ -12,6 +12,16 @@ const links = [
   { path: '/service', label: 'service' },
   { path: '/about', label: 'about' },
 ]
+
+// 语言切换：链接到当前页面的其他语言版本（保留路径与查询参数），语言名称用各自的书写形式
+const { locale } = useI18n()
+const switchLocalePath = useSwitchLocalePath()
+const languages = [
+  { code: 'zh', hreflang: 'zh-CN', label: '简体' },
+  { code: 'tw', hreflang: 'zh-TW', label: '繁體' },
+  { code: 'en', hreflang: 'en-US', label: 'English' },
+] as const
+const currentLanguage = computed(() => languages.find((item) => item.code === locale.value) ?? languages[0])
 
 const isAside = ref(false)
 function toggleAside() {
@@ -26,11 +36,30 @@ function toggleAside() {
     </NuxtLink>
     <!-- computer -->
     <div class="computer">
-      <nav class="header-nav computer">
-        <NuxtLink v-for="item in links" :key="item.path" :to="localePath(item.path)">
-          {{ $t(item.label) }}
-        </NuxtLink>
-      </nav>
+      <div class="header-right">
+        <nav class="header-nav">
+          <NuxtLink v-for="item in links" :key="item.path" :to="localePath(item.path)">
+            {{ $t(item.label) }}
+          </NuxtLink>
+        </nav>
+        <!-- 纯 CSS 下拉（悬停 / 获得焦点时展开），各语言链接始终在 HTML 中，便于搜索引擎抓取 -->
+        <div class="header-lang" tabindex="0">
+          <GlobalOutlined />
+          <span class="header-lang-current">{{ currentLanguage.label }}</span>
+          <DownOutlined class="header-lang-arrow" />
+          <div class="header-lang-menu">
+            <NuxtLink
+              v-for="item in languages"
+              :key="item.code"
+              :to="switchLocalePath(item.code)"
+              :class="{ active: item.code === locale }"
+              :hreflang="item.hreflang"
+            >
+              {{ item.label }}
+            </NuxtLink>
+          </div>
+        </div>
+      </div>
     </div>
     <!-- mobile -->
     <div class="mobile">
@@ -45,6 +74,17 @@ function toggleAside() {
           <div class="header-aside-link">
             <NuxtLink v-for="item in links" :key="item.path" :to="localePath(item.path)">
               {{ $t(item.label) }}
+            </NuxtLink>
+          </div>
+          <div class="header-aside-lang">
+            <NuxtLink
+              v-for="item in languages"
+              :key="item.code"
+              :to="switchLocalePath(item.code)"
+              :class="{ active: item.code === locale }"
+              :hreflang="item.hreflang"
+            >
+              {{ item.label }}
             </NuxtLink>
           </div>
         </div>

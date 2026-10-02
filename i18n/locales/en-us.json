@@ -1,9 +1,9 @@
 {
   "home": "Home",
-  "product": "Product introduction",
-  "solution": "Solution",
-  "service": "Technical Service",
-  "about": "About GAChain",
+  "product": "Products",
+  "solution": "Solutions",
+  "service": "Open Source",
+  "about": "About Us",
   "home.gochain": "Blockchain as Government -- GAChain",
   "home.introduce": "After seven years of R&D, our core team created China’s first “Blockchain as Government -- GAChain”: a blockchain infrastructure with an all-new architecture and fully proprietary intellectual property. It lets you create independently running scenarios on-chain with fully tiered management permissions, feed external data into GAChain smart contracts, and achieve efficient, precise automated transaction processing that unites on-chain and off-chain data. Our goal is to make complex technology simple, creating more value and capability for governments and enterprises as they integrate resources and business applications.",
   "home.player": "Play the GAChain introduction video",
