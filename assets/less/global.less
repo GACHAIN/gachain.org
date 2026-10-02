@@ -175,7 +175,36 @@ body {
 .page-leave-to {
   opacity: 0;
 }
+// 沿用旧站 antd 1.x 的全局基础样式（antd 4 的 cssinjs 不再输出）
+body {
+  font-variant: tabular-nums;
+  font-feature-settings: 'tnum';
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 0;
+  margin-bottom: 0.5em;
+  color: rgba(0, 0, 0, 0.85);
+  font-weight: 500;
+}
 .global {
+  // antd 1.x 分页项为带边框的白底方块
+  .ant-pagination-item,
+  .ant-pagination-prev .ant-pagination-item-link,
+  .ant-pagination-next .ant-pagination-item-link {
+    border: 1px solid #d9d9d9;
+    background-color: #fff;
+  }
+  .ant-pagination-item-active,
+  .ant-pagination-item:hover,
+  .ant-pagination-prev:not(.ant-pagination-disabled):hover .ant-pagination-item-link,
+  .ant-pagination-next:not(.ant-pagination-disabled):hover .ant-pagination-item-link {
+    border-color: @primary-color;
+  }
   .ant-layout {
     min-height: 100vh;
     font-family: Noto Sans SC, Microsoft YaHei, sans-serif, serif;

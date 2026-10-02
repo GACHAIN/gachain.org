@@ -140,7 +140,13 @@
    - `nuxt` 移入 devDependencies（运行时只依赖自包含的 `.output`），`npm audit --omit=dev` 为 0，`.output/server/package.json` 审计为 0。
    - `@nuxtjs/i18n` 升级至 10.6.0（vue-i18n 11），移除 v10 已不支持的 `bundle.optimizeTranslationDirective`；扁平 key 解析、`v-html` 富文本文案、三语路由与 `<html lang>`、ant-design-vue 语言包切换回归通过，控制台无报错。
    - 全量 `npm audit` 余 7 个 high，均来自 `node-forge`（GHSA-86w9-cpqp-85rv，上游无修复版本），路径为 nuxt → @nuxt/cli / nitropack → listhen（仅开发服务器 HTTPS 证书），不进入 `.output` 与镜像。
-   - `en-us.json` 沿用旧站，只含导航 5 个 key，其余文案回退中文，与现网一致；补全英文文案属内容工作，不在本次迁移范围。
+   - 语言包补齐：`en-us.json`、`zh-tw.json` 由 5 个 key 补至与 `zh-cn.json` 相同的 217 个（旧站同样只有 5 个，英繁页面整页回退中文）；繁体按台湾用语转换，专利与软著名称仅做字形转换，备案号保留原文。
+   - 新旧并排视觉对比（旧版 :8081 与新版连接同一后端，6 页 + 新闻详情，桌面 1440 / 移动 390）后修复：
+     - antd 4 逐组件写入 font-family，主题 `token.fontFamily` 统一为旧站字体 Noto Sans SC / Microsoft YaHei；
+     - 补回旧站 antd 1.x 的全局基础样式（`h1–h6` 边距/颜色/字重、`tnum` 数字字形、分页项边框）；
+     - 图标由 `<i>` 变为 `span.anticon`，新闻卡片日期行箭头与移动端侧边菜单关闭按钮的选择器同步改为 `.anticon`；
+     - 移动端轮播分页条恢复 10×4（组件 scoped 样式覆盖了全局移动端规则）。
+   - 新旧并排对比编排：部署仓库 `docker-compose.compare.yml`（旧版 :18081、新版 :18082、共用后端 :19033，数据为 `data-compare/` 副本）。
    - 本机 `docker build` 成功（arm64，352 MB，`node` 用户，含 HEALTHCHECK）；容器运行与 compose 联调在服务器（amd64）上进行。
 
 ## 8. 验收标准

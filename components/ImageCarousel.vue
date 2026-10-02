@@ -138,6 +138,14 @@ onBeforeUnmount(() => swiper?.destroy(true, true))
   .swiper-pagination-bullet-active {
     background: @primary-color;
   }
+  // 移动端分页条与旧站一致：10×4
+  @media screen and (max-width: 992px) {
+    .swiper-pagination-bullet {
+      width: 10px;
+      height: 4px;
+      border-radius: 2px;
+    }
+  }
 }
 .swiper-button-prev,
 .swiper-button-next {

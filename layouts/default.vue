@@ -16,7 +16,10 @@ useHead(() => ({ htmlAttrs: { lang: localeHead.value.htmlAttrs.lang } }))
 const antLocales = { zh: zhCN, en: enGB, tw: zhTW }
 const { locale } = useI18n()
 const antLocale = computed(() => antLocales[locale.value as keyof typeof antLocales] ?? zhCN)
-const antTheme = { token: { colorPrimary: '#c4171d' } }
+// antd 4 会给 a-row / a-col / a-layout 等逐个写入 font-family，须在主题里统一为旧站字体
+const antTheme = {
+  token: { colorPrimary: '#c4171d', fontFamily: "'Noto Sans SC', 'Microsoft YaHei', sans-serif, serif" },
+}
 
 // 全站滚动容器：滚动条仅在滚动时显示（沿用旧 vuescroll 配置）
 const scrollOptions: PartialOptions = {
